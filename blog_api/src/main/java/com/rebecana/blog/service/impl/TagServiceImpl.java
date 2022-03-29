@@ -4,6 +4,7 @@ import com.rebecana.blog.dao.pojo.Tag;
 import com.rebecana.blog.dao.mapper.TagMapper;
 import com.rebecana.blog.service.TagService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.rebecana.blog.vo.Result;
 import com.rebecana.blog.vo.TagVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +45,18 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
         //mybatisplus 无法进行多表查询
         List<Tag> tags = tagMapper.findTagsByArticleId(articleId);
         return copyList(tags);
+    }
+
+    @Override
+    public Result hots(int limit){
+        /**
+         * 标签所拥有对文章数量最多
+         * 查询 根据最热tag_id进行分组计数。从大到小排列，取前limit个
+         */
+        List<Long> tagIds = tagMapper.findHotsTagIds(limit);
+        //需求tagid和tagname tag对象
+        List<Tag> taglist=tagMapper.findTagsByTagIds(tagIds);
+        return Result.success(taglist);
     }
 
 }

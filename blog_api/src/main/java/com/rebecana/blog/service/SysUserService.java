@@ -9,6 +9,26 @@ public interface SysUserService {
 
     SysUser findUserById(Long id);
 
-    
+    SysUser findUser(String account,String password);
+
+    /**
+     * 保存用户
+     * @param sysUser
+     */
+    void save(SysUser sysUser);
+
+    /**
+     * 根据用户查找用户
+     * @param account
+     * @return
+     */
+    SysUser findUserByAccount(String account);
+
+    /**
+     * 根据token查询
+     * @param token
+     * @return
+     */
+    Result findUserByToken(String token);
 
 }

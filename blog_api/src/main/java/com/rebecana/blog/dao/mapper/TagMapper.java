@@ -20,6 +20,11 @@ public interface TagMapper extends BaseMapper<Tag> {
      * @param articleId
      * @return
      */
+
     List<Tag> findTagsByArticleId(Long articleId);
+
+    List<Long> findHotsTagIds(int limit);
+
+    List<Tag> findTagsByTagIds(List<Long> tagIds);
 
 }

@@ -2,6 +2,7 @@ package com.rebecana.blog.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.rebecana.blog.dao.dos.Archives;
 import com.rebecana.blog.dao.pojo.Article;
 import com.rebecana.blog.dao.mapper.ArticleMapper;
 import com.rebecana.blog.dao.pojo.SysUser;
@@ -74,6 +75,34 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         }
 
         return articleVo;
+    }
+
+    @Override
+    public Result hotArticle(int limit){
+        LambdaQueryWrapper<Article> queryWrapper=new LambdaQueryWrapper<>();
+        queryWrapper.orderByDesc(Article::getViewCounts);
+        queryWrapper.select(Article::getId,Article::getTitle);
+        queryWrapper.last("limit "+limit);
+        //select id,title from article order by view_counts desc limit 5
+        List<Article> articles=articleMapper.selectList(queryWrapper);
+        return Result.success(copyList(articles,false,false));
+    }
+
+    @Override
+    public Result newArticles(int limit) {
+        LambdaQueryWrapper<Article> queryWrapper=new LambdaQueryWrapper<>();
+        queryWrapper.orderByDesc(Article::getCreateDate);
+        queryWrapper.select(Article::getId,Article::getTitle);
+        queryWrapper.last("limit "+limit);
+        //select id,title from article order by view_counts desc limit 5
+        List<Article> articles=articleMapper.selectList(queryWrapper);
+        return Result.success(copyList(articles,false,false));
+    }
+
+    @Override
+    public Result listArchives() {
+        List<Archives> archiveslist=articleMapper.listArchives();
+        return Result.success(archiveslist);
     }
 
 
