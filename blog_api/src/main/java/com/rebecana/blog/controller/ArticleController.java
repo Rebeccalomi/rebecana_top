@@ -5,12 +5,9 @@ import com.rebecana.blog.service.ArticleService;
 import com.rebecana.blog.vo.Result;
 import com.rebecana.blog.vo.params.PageParams;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RestController;
 
 /**
  * <p>
@@ -65,6 +62,11 @@ public class ArticleController {
     @PostMapping("listArchives")
     public Result listArchives(){
         return articleService.listArchives();
+    }
+
+    @PostMapping("view/{id}")
+    public Result findArticleById(@PathVariable("id") Long articleId){
+        return articleService.findArticleById(articleId);
     }
 }
 

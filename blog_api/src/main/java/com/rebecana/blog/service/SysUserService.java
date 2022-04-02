@@ -1,6 +1,7 @@
 package com.rebecana.blog.service;
 
 import com.rebecana.blog.dao.pojo.SysUser;
+import com.rebecana.blog.vo.ArticleBodyVo;
 import com.rebecana.blog.vo.Result;
 import com.rebecana.blog.vo.UserVo;
 import com.rebecana.blog.dao.pojo.SysUser;
@@ -30,5 +31,8 @@ public interface SysUserService {
      * @return
      */
     Result findUserByToken(String token);
+
+
+    UserVo findUserVoById(Long id);
 
 }

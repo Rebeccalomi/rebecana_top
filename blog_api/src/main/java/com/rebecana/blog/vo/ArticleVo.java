@@ -1,7 +1,7 @@
 package com.rebecana.blog.vo;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.Data;
 
 import java.util.List;
@@ -9,16 +9,28 @@ import java.util.List;
 @Data
 public class ArticleVo {
 
+    @JsonSerialize(using = ToStringSerializer.class)  //雪花算法会丢失精度
     private Long id;
-    private String title;
-    private String summary;
-    private Integer commentCounts;
-    private Integer viewCounts;
-    private Integer weight;
 
+    private String title;
+
+    private String summary;
+
+    private Integer commentCounts;
+
+    private Integer viewCounts;
+
+    private Integer weight;
+    /**
+     * 创建时间
+     */
     private String createDate;
-    private String author;
-    private Long bodyId;
-    private Integer categoryId;
+
+    private UserVo author;
+
+    private ArticleBodyVo body;
+
     private List<TagVo> tags;
+
+    private CategoryVo category;
 }

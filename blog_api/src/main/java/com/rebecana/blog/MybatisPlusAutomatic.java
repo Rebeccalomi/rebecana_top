@@ -61,7 +61,7 @@ public class MybatisPlusAutomatic {
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
         //使用lombok
         //hospital_info为想要生成的表名，想要一下对多个表生成，用逗号分隔
-        strategy.setInclude(scanner("SysUser").split(","));
+        strategy.setInclude(scanner("ArticleBody").split(","));
         strategy.setTablePrefix("ms_");
         strategy.setEntityLombokModel(true);
         //表名前缀过滤
