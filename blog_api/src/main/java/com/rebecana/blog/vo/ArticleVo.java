@@ -10,7 +10,7 @@ import java.util.List;
 public class ArticleVo {
 
     @JsonSerialize(using = ToStringSerializer.class)  //雪花算法会丢失精度
-    private Long id;
+    private String id;
 
     private String title;
 

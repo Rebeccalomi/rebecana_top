@@ -20,4 +20,13 @@ public interface TagService extends IService<Tag> {
 
     Result hots(int limit);
 
+    /**
+     * 查询所有文章标签
+     * @return
+     */
+    Result findAll();
+
+    Result findAllDetail();
+
+    Result findDetailById(Long id);
 }

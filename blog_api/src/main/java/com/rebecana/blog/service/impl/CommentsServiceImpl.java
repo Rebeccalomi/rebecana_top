@@ -38,7 +38,7 @@ public class CommentsServiceImpl implements CommentsService {
     public CommentVo copy(Comment comment){
         CommentVo commentVo = new CommentVo();
         BeanUtils.copyProperties(comment,commentVo);
-        commentVo.setId(comment.getId());
+        commentVo.setId(comment.getId().toString());
         //作者信息
         //时间格式化
         commentVo.setCreateDate(new DateTime(comment.getCreateDate()).toString("yyyy-MM-dd HH:mm"));

@@ -1,5 +1,6 @@
 package com.rebecana.blog.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.rebecana.blog.dao.pojo.Tag;
 import com.rebecana.blog.dao.mapper.TagMapper;
 import com.rebecana.blog.service.TagService;
@@ -57,6 +58,26 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
         //需求tagid和tagname tag对象
         List<Tag> taglist=tagMapper.findTagsByTagIds(tagIds);
         return Result.success(taglist);
+    }
+
+    @Override
+    public Result findAll() {
+        List<Tag> list = tagMapper.selectList(new LambdaQueryWrapper<>());
+        return Result.success(copyList(list));
+    }
+
+    @Override
+    public Result findAllDetail() {
+        LambdaQueryWrapper<Tag> queryWrapper = new LambdaQueryWrapper<>();
+        List<Tag> tags = this.tagMapper.selectList(queryWrapper);
+        return Result.success(copyList(tags));
+    }
+
+    @Override
+    public Result findDetailById(Long id) {
+        Tag tag = tagMapper.selectById(id);
+        TagVo copy = copy(tag);
+        return Result.success(copy);
     }
 
 }

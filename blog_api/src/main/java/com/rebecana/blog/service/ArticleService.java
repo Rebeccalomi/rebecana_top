@@ -3,6 +3,7 @@ package com.rebecana.blog.service;
 import com.rebecana.blog.dao.pojo.Article;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.rebecana.blog.vo.Result;
+import com.rebecana.blog.vo.params.ArticleParam;
 import com.rebecana.blog.vo.params.PageParams;
 
 /**
@@ -48,4 +49,11 @@ public interface ArticleService extends IService<Article> {
      * @return
      */
     Result findArticleById(Long articleId);
+
+    /**
+     * 文章发布服务
+     * @param articleParam
+     * @return
+     */
+    Result publish(ArticleParam articleParam);
 }

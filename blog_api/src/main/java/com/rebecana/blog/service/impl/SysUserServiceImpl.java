@@ -40,7 +40,6 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Override
     public SysUser findUser(String account, String password) {
-        System.out.println(password);
         LambdaQueryWrapper<SysUser> queryWrapper=new LambdaQueryWrapper<>();
         queryWrapper.eq(SysUser::getAccount,account);
         queryWrapper.eq(SysUser::getPassword,password);
@@ -78,7 +77,7 @@ public class SysUserServiceImpl implements SysUserService {
             return Result.fail(ErrorCode.TOKEN_ERROR.getCode(),ErrorCode.TOKEN_ERROR.getMsg());
         }
         LoginUserVo loginUserVo = new LoginUserVo();
-        loginUserVo.setId(sysUser.getId());
+        loginUserVo.setId(sysUser.getId().toString());
         loginUserVo.setNickname(sysUser.getNickname());
         loginUserVo.setAvatar(sysUser.getAvatar());
         loginUserVo.setAccount(sysUser.getAccount());
