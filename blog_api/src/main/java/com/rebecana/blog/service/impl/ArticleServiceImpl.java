@@ -110,6 +110,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     private ArticleVo copy(Article article ,boolean isTag,boolean isAuthor,boolean isBody,boolean isCate){
         ArticleVo articleVo=new ArticleVo();
         articleVo.setId(String.valueOf(article.getId()));
+        articleVo.setTitleImg(article.getTitleImg());
         BeanUtils.copyProperties(article,articleVo);
         articleVo.setCreateDate(new DateTime(article.getCreateDate()).toString("yyyy-MM-dd HH:mm"));
         //并不是所有的接口,都需要标签和作者信息
@@ -177,7 +178,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         article.setSummary(articleParam.getSummary());
         article.setTitle(articleParam.getTitle());
         article.setViewCounts(0);
-        article.setWeight(Article.Article_Common);
+        article.setWeight(articleParam.getWeight());
+        article.setTitleImg(articleParam.getTitleimg());
         article.setBodyId(-1L);
         this.articleMapper.insert(article);
 
@@ -202,7 +204,51 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         ArticleVo articleVo = new ArticleVo();
         articleVo.setId(article.getId().toString());
         return Result.success(articleVo);
+    }
 
+    @Override
+    public Result updateArticle(ArticleParam articleParam) {
+        //此接口加入登录拦截，不然没登陆线程池接收不到注册用户哦
+        SysUser sysUser = UserThreadLocal.get();
+        /**
+         *1 发布文章，构建Article对象
+         *2 作者ID 当前的登录用户
+         *3 标签 要将标签加入关联列表中
+         *4 body内容存储
+         */
+        Article article = new Article();
+        article.setId(articleParam.getId());
+        article.setAuthorId(sysUser.getId());
+        article.setCategoryId(Long.parseLong(articleParam.getCategory().getId()));
+        article.setSummary(articleParam.getSummary());
+        article.setTitle(articleParam.getTitle());
+        article.setWeight(articleParam.getWeight());
+        article.setTitleImg(articleParam.getTitleimg());
+        this.articleMapper.updateById(article);
+
+        //tags
+        List<TagVo> tags = articleParam.getTags();
+        LambdaQueryWrapper<ArticleTag> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(ArticleTag::getArticleId,articleParam.getId());
+        this.articleTagMapper.delete(queryWrapper);
+        if (tags != null) {
+            for (TagVo tag : tags){
+                ArticleTag articleTag = new ArticleTag();
+                articleTag.setArticleId(article.getId());
+                articleTag.setTagId(Long.parseLong(tag.getId()));
+                this.articleTagMapper.insert(articleTag);
+            }
+        }
+        //body
+        ArticleBody articleBody = new ArticleBody();
+        articleBody.setId(articleMapper.selectById(articleParam.getId()).getBodyId());
+        articleBody.setContent(articleParam.getBody().getContent());
+        articleBody.setContentHtml(articleParam.getBody().getContentHtml());
+        articleBody.setArticleId(article.getId());
+        articleBodyMapper.updateById(articleBody);
+        ArticleVo articleVo = new ArticleVo();
+        articleVo.setId(article.getId().toString());
+        return Result.success(articleVo);
     }
 
     @Autowired

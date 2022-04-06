@@ -19,6 +19,7 @@
 
     <select id="listArchives" resultType="com.rebecana.blog.dao.dos.Archives">
         select FROM_UNIXTIME(create_date/1000,'%Y') as year,FROM_UNIXTIME(create_date/1000,'%m') as month,count(*) as count from ms_article group by year,month
+        order by year desc,month desc
     </select>
     <!--            Long categoryId,
                                Long tagId,
@@ -40,4 +41,5 @@
         </where>
         order by weight desc,create_date desc
     </select>
+
 </mapper>

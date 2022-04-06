@@ -15,6 +15,7 @@ import com.rebecana.blog.vo.params.PageParams;
  * @author zdy
  * @since 2022-03-23
  */
+
 public interface ArticleService extends IService<Article> {
     /**
      * 分页查询文章列表
@@ -56,4 +57,6 @@ public interface ArticleService extends IService<Article> {
      * @return
      */
     Result publish(ArticleParam articleParam);
+
+    Result updateArticle(ArticleParam articleParam);
 }

@@ -16,7 +16,6 @@ public class CommentsController {
 
         @GetMapping("article/{id}")
         public Result comments(@PathVariable("id") Long articleId) {
-            System.out.println("111");
             return commentsService.commentsByArticleId(articleId);
         }
 

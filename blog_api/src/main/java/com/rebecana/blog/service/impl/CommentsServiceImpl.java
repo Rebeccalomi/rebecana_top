@@ -91,7 +91,6 @@ public class CommentsServiceImpl implements CommentsService {
         queryWrapper.eq(Comment::getLevel,1);
         List<Comment> comments = commentMapper.selectList(queryWrapper);
         return Result.success(copyList(comments));
-
     }
 
     @Override

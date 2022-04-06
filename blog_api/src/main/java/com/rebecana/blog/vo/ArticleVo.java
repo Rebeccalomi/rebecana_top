@@ -33,4 +33,6 @@ public class ArticleVo {
     private List<TagVo> tags;
 
     private CategoryVo category;
+
+    private String titleImg;
 }

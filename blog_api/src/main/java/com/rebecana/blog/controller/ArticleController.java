@@ -81,10 +81,10 @@ public class ArticleController {
 
     @PostMapping("publish")
     public Result publish(@RequestBody ArticleParam articleParam){
+        if(articleParam.getId()!=null)
+            return articleService.updateArticle(articleParam);
         return articleService.publish(articleParam);
-
     }
-
 
 }
 

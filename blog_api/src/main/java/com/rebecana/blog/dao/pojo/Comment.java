@@ -2,6 +2,8 @@ package com.rebecana.blog.dao.pojo;
 
 import lombok.Data;
 
+import java.math.BigInteger;
+
 @Data
 public class Comment {
 

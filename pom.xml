@@ -11,6 +11,7 @@
 
     <modules>
         <module>blog_api</module>
+        <module>blog-admin</module>
     </modules>
 
     <parent>

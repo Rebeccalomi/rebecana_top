@@ -71,6 +71,7 @@ public class LoginServiceImpl implements LoginService {
         String account = loginParam.getAccount();
         String password = loginParam.getPassword();
         String nickname = loginParam.getNickname();
+        String avatar = loginParam.getAvatar();
         if (StringUtils.isBlank(account)
                 || StringUtils.isBlank(password)
                 || StringUtils.isBlank(nickname)
@@ -87,11 +88,11 @@ public class LoginServiceImpl implements LoginService {
         sysUser.setPassword(DigestUtils.md5Hex(password+salt));
         sysUser.setCreateDate(System.currentTimeMillis());
         sysUser.setLastLogin(System.currentTimeMillis());
-        sysUser.setAvatar("/static/img/logo.b3a48c0.png");
+        sysUser.setAvatar(avatar);
         sysUser.setAdmin(1); //1 为true
         sysUser.setDeleted(0); // 0 为false
         sysUser.setSalt("");
-        sysUser.setStatus("");
+        sysUser.setStatus("0");
         sysUser.setEmail("");
         sysUserService.save(sysUser);
 
