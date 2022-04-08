@@ -49,6 +49,9 @@
                 <el-table-column label="编号" align="center" prop="id">
                 </el-table-column>
                 <el-table-column label="图片" align="center" prop="avatar">
+                    　　<template slot-scope="dataList">
+                    　　　　<img :src="dataList.row.avatar" width="100" height="100" class="head_pic"/>
+                    　　</template>
                 </el-table-column>
                 <el-table-column label="标签名字" align="center" prop="tagName">
                 </el-table-column>

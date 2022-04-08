@@ -11,7 +11,7 @@ a {
 	background: #fff;
 }
 .skin-purple .main-header .logo:hover {
-	background: #0abdfe;
+	background: #720e9e;
 }
 .skin-purple .main-header .navbar .sidebar-toggle:hover {
 	/* background: #0abdfe; */
@@ -29,7 +29,7 @@ a {
 }
 .skin-purple .main-header .navbar {
 	height: 70px;
-	background: linear-gradient(to right, #0abdfe, #67f0e0);
+	background: linear-gradient(to right, #9933ff, #720e9e);
   /* margin-left: 230px; */
 }
 .winfo{margin-left: 230px;}
@@ -66,7 +66,7 @@ a {
 	color: #999
 }
 .sidebar-menu .treeview-menu > li:hover {
-	background: #0abdfe;
+	background: #9933ff;
 }
 @media (min-width: 768px) {
 	.skin-purple  .navbar-nav>li>a 
@@ -449,7 +449,7 @@ label input[type="radio"]:checked {
 }
 .el-menu-item:hover,.el-menu-item.is-active {
 	color: #fff;
-	background: #0abdfe;
+	background: #9933ff;
 }
 .el-menu-item:hover a,.el-menu-item.is-active a{
 	color: #fff;

@@ -19,6 +19,7 @@ public class SecurityUserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
         //登录的时候，会把username 传递到这里
         //通过username查询 admin表，如果 admin存在 将密码告诉spring security
         //如果不存在 返回null 认证失败了

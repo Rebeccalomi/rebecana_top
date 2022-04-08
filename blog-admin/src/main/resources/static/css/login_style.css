@@ -8,7 +8,7 @@
   --space-xl: calc(var(--space-root) * 2);
   --color-primary: mediumslateblue;
   --color-secondary: black;
-  --color-tertiary: #28d1ff;
+  --color-tertiary:#720e9e;
   --base-border-radius: 0.25rem;
   --ease: cubic-bezier(0.075, 0.82, 0.165, 1);
   --duration: 350ms;
@@ -187,8 +187,9 @@ input:focus {
 }
 
 .btn-group {
+  margin-top: 10px;
   display: -webkit-box;
-  display: flex;
+  display: block;
   -webkit-box-align: center;
           align-items: center;
   -webkit-box-pack: justify;

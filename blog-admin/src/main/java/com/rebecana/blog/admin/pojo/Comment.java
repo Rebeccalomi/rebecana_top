@@ -33,7 +33,7 @@ public class Comment implements Serializable {
 
     private Long createDate;
 
-    private Integer articleId;
+    private Long articleId;
 
     private Long authorId;
 

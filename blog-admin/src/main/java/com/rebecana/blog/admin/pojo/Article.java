@@ -76,4 +76,5 @@ public class Article implements Serializable {
     private Integer categoryId;
 
 
+    private String titleImg;
 }

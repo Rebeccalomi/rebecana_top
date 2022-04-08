@@ -89,7 +89,7 @@ public class LoginServiceImpl implements LoginService {
         sysUser.setCreateDate(System.currentTimeMillis());
         sysUser.setLastLogin(System.currentTimeMillis());
         sysUser.setAvatar(avatar);
-        sysUser.setAdmin(1); //1 为true
+        sysUser.setAdmin(0); //1 为true
         sysUser.setDeleted(0); // 0 为false
         sysUser.setSalt("");
         sysUser.setStatus("0");

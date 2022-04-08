@@ -18,4 +18,6 @@ public interface ArticleTagMapper extends BaseMapper<ArticleTag> {
 
     @Delete("DELETE FROM ms_article_tag WHERE ms_article_tag.id in(SELECT id FROM(SELECT DISTINCT ms_article_tag.id FROM ms_article,ms_category,ms_article_tag WHERE ms_article.category_id = #{Id} AND ms_article.id = ms_article_tag.article_id)as tmp)")
     void deletebycategory(Long Id);
+
+
 }

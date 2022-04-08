@@ -3,22 +3,18 @@ package com.rebecana.blog.admin.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.rebecana.blog.admin.controller.AdminController;
-import com.rebecana.blog.admin.mapper.CommentMapper;
 import com.rebecana.blog.admin.mapper.PermissionMapper;
 import com.rebecana.blog.admin.model.params.PageParam;
-import com.rebecana.blog.admin.pojo.Comment;
 import com.rebecana.blog.admin.pojo.Permission;
-import com.rebecana.blog.admin.service.CommentService;
 import com.rebecana.blog.admin.service.PermissionService;
 import com.rebecana.blog.admin.vo.PageResult;
 import com.rebecana.blog.admin.vo.Result;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import sun.security.krb5.internal.PAData;
+
+import java.util.List;
 
 
 @Service
@@ -57,5 +53,12 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
     public Result delete(Long id) {
         this.permissionMapper.deleteById(id);
         return Result.success(null);
+    }
+
+    @Override
+    public Result getPermission() {
+        LambdaQueryWrapper<Permission> queryWrapper = new LambdaQueryWrapper<>();
+        List<Permission> permissionList = permissionMapper.selectList(queryWrapper);
+        return Result.success(permissionList);
     }
 }

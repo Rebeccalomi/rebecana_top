@@ -1,4 +1,4 @@
-package com.rebecana.blog.admin.config;
+package com.rebecana.blog.admin.Config;
 
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
