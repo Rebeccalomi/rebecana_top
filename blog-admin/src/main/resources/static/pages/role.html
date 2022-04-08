@@ -239,7 +239,6 @@
                 axios.post("/admin/role/getpermission").then((res) => {
                     if (res.data.success) {
                         this.permissionList = res.data.data;
-                        console.log(this.permissionList);
                     }
                 }).catch((error) => {
                     if (error == "Error: Request failed with status code 403") {

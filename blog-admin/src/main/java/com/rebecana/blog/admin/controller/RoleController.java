@@ -31,11 +31,6 @@ public class RoleController {
         return roleService.listRole(pageParam);
     }
 
-    @PostMapping("/getrole")
-    public Result listArticle(){
-        return roleService.listRole();
-    }
-
     @PostMapping("/add")
     public Result add(@RequestBody RoleVo roleVo){
         return roleService.add(roleVo);

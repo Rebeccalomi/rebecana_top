@@ -5,6 +5,7 @@ import com.rebecana.blog.admin.pojo.Admin;
 import com.rebecana.blog.admin.pojo.Permission;
 import com.rebecana.blog.admin.service.AdminService;
 import com.rebecana.blog.admin.service.PermissionService;
+import com.rebecana.blog.admin.service.RoleService;
 import com.rebecana.blog.admin.vo.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +20,9 @@ public class AdminController {
 
     @Autowired
     private AdminService adminService;
+
+    @Autowired
+    private RoleService roleService;
 
     @PostMapping("user/userInfo")
     public Result getuser(){
@@ -65,6 +69,9 @@ public class AdminController {
         return adminService.delete(id);
     }
 
-
+    @PostMapping("admin/getrole")
+    public Result listArticle(){
+        return roleService.listRole();
+    }
 
 }

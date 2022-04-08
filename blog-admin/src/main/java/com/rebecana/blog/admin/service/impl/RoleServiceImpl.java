@@ -64,21 +64,16 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     @Override
     public Result add(RoleVo roleVo) {
         this.roleMapper.insert(copy(roleVo));
-        if(roleVo.getId()!=1){
-            rolePermissionService.deletebyrole(roleVo.getId());
-            rolePermissionService.insertbypermission(roleVo.getPermission(),roleVo.getId());
-
-        }
+        rolePermissionService.deletebyrole(roleVo.getId());
+        rolePermissionService.insertbypermission(roleVo.getPermission(),roleVo.getId());
         return Result.success(null);
     }
 
     @Override
     public Result update(RoleVo roleVo) {
         this.roleMapper.updateById(copy(roleVo));
-        if(roleVo.getId()!=1){
-            rolePermissionService.deletebyrole(roleVo.getId());
-            rolePermissionService.insertbypermission(roleVo.getPermission(),roleVo.getId());
-        }
+        rolePermissionService.deletebyrole(roleVo.getId());
+        rolePermissionService.insertbypermission(roleVo.getPermission(),roleVo.getId());
         return Result.success(null);
     }
 

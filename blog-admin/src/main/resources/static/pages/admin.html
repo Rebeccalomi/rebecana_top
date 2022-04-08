@@ -54,8 +54,8 @@
                 </el-table-column>
                 <el-table-column label="用户名" align="center" prop="username">
                 </el-table-column>
-                <el-table-column label="密码" align="center" prop="password">
-                </el-table-column>
+<!--                <el-table-column label="密码" align="center" prop="password">-->
+<!--                </el-table-column>-->
                 <el-table-column label="角色" align="center" prop="role">
                 </el-table-column>
                 <el-table-column label="操作" align="center">
@@ -245,7 +245,7 @@
                 this.show=!this.show;
             },
             findRole(){
-                axios.post("/admin/role/getrole").then((res)=>{
+                axios.post("/admin/admin/getrole").then((res)=>{
                     if (res.data.success){
                         this.roleList = res.data.data;
                         console.log(this.roleList);

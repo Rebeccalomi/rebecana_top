@@ -128,7 +128,13 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
             LambdaQueryWrapper<Admin> queryWrapper=new LambdaQueryWrapper();
             queryWrapper.eq(Admin::getUsername,currentUserName);
             Admin admin=adminMapper.selectOne(queryWrapper);
-            return Result.success(admin);
+            AdminVo adminVo=new AdminVo();
+            adminVo.setUsername(admin.getUsername());
+            adminVo.setAvatar(admin.getAvatar());
+            adminVo.setId(admin.getId());
+            adminVo.setRole(roleMapper.selectrole(admin.getRole()));
+            adminVo.setPassword(admin.getPassword());
+            return Result.success(adminVo);
         }else {
             throw new RuntimeException("No User");
         }
