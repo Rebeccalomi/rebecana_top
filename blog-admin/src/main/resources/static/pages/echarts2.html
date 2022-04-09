@@ -24,9 +24,9 @@
     <!--        <script src="../plugins/quill/quill.core.js"></script>-->
 </head>
 <body style="width: 100%;">
-    <div id="app">
-        <div id="main" style="height:700px;"></div>
-    </div>
+<div id="app">
+    <div id="main" style="height:700px;"></div>
+</div>
 </body>
 <script src="../js/vue.js"></script>
 <script src="../plugins/elementui/index.js"></script>
@@ -42,7 +42,7 @@
         data(){
             return {
                 dataList: [],
-                titleList: [],
+                dateList: [],
                 ViewList:[],
                 CommentList:[]
             };
@@ -52,26 +52,26 @@
         },
         methods: {
             drawChart(){
-                axios.post("/admin/echart/echart1", this.pagination).then((res) => {
+                axios.post("/admin/echart/echart2", this.pagination).then((res) => {
                     if (res.data.success) {
                         this.dataList = res.data.data;
                         for(let i=0;i<this.dataList.length;i++) {
-                            this.titleList.push(this.dataList[i].title);
+                            this.dateList.push(this.dataList[i].date.substr(0,10));
                             this.CommentList.push(this.dataList[i].commentCounts);
                             this.ViewList.push(this.dataList[i].viewCounts);
                         }
                         this.chart.setOption({
-                            yAxis: {
-                                data: this.titleList,
+                            xAxis: {
+                                data: this.dateList,
                             },
                             series: [{
                                 name: '评论数',
                                 data: this.CommentList,
                             },
-                            {
-                                name: '阅读数',
-                                data: this.ViewList,
-                            }]
+                                {
+                                    name: '阅读数',
+                                    data: this.ViewList,
+                                }]
                         });
                     }
                 }).catch((error) => {
@@ -86,21 +86,8 @@
 
                 // 指定图表的配置项和数据
                 let option = {
-                    toolbox: {
-                        feature: {
-                            myTool: {
-                                show: true, //是否显示
-                                title: "刷新图表",  //鼠标悬空的提示文字
-                                icon: "path://M200.753 408.251c-57.062 0-103.749 46.687-103.749 103.749s46.687 103.749 103.749 103.749S304.502 569.062 304.502 512s-46.687-103.749-103.749-103.749z m622.494 0c-57.062 0-103.749 46.687-103.749 103.749s46.687 103.749 103.749 103.749S926.996 569.062 926.996 512s-46.687-103.749-103.749-103.749z m-311.247 0c-57.062 0-103.749 46.687-103.749 103.749S454.938 615.749 512 615.749 615.749 569.062 615.749 512 569.062 408.251 512 408.251z", //这个是阿里icon svg 后 b的全部字符串
-                                onclick: (o) => {
-                                    //参数o 是图表的option 我这里并没有用到
-                                    this.$options.methods.drawChart();
-                                },
-                            },
-                        },
-                    },
                     title: {
-                        text:'单博客数据图',
+                        text:'时间博客数据图',
                         left:'center',
                         textStyle:{
                             //文字颜色
@@ -116,14 +103,7 @@
                         }
                     },
                     xAxis: {
-                        max: 'dataMax'
-                    },
-                    yAxis: {
-                        type: 'category',
-                        data: this.titleList,
-                        inverse: true,
-                        animationDuration: 300,
-                        animationDurationUpdate: 300,
+                        data: this.dateList,
                         axisLabel: {
                             interval: 0,
                             formatter:function(value)
@@ -150,13 +130,18 @@
                                 }
                             }
                         },
-                        max: 5 // only the largest 3 bars will be displayed
+                        max: 10
+                    },
+                    yAxis: {
+                        type: 'value',
+                        max: 'dataMax'
                     },
                     series: [
                         {
                             realtimeSort: true,
                             name: '评论数',
-                            type: 'bar',
+                            type: 'line',
+                            smooth: true,
                             data: this.CommentList,
                             label: {
                                 show: true,
@@ -168,7 +153,8 @@
                         {
                             realtimeSort: true,
                             name: '阅读数',
-                            type: 'bar',
+                            type: 'line',
+                            smooth: true,
                             data: this.ViewList,
                             label: {
                                 show: true,
