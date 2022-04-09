@@ -105,8 +105,8 @@
         animationEasing: 'linear',
         animationEasingUpdate: 'linear'
     };
-    // 使用刚指定的配置项和数据显示图表。
-    function update() {
+
+    let update = function(){
         var data = option.series[0].data;
         for (var i = 0; i < data.length; ++i) {
             if (Math.random() > 0.9) {
@@ -117,10 +117,7 @@
         }
         myChart.setOption(option);
     }
-
-    setInterval(function() {
-        update();
-    }, 3000);
+    setInterval(update(),delayTime);
 
 </script>
 </html>
