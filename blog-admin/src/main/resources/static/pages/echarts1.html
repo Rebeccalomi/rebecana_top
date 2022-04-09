@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- 页面meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>rebecana_world后台</title>
+    <meta name="description" content="rebecana_world后台">
+    <meta name="keywords" content="rebecana_world后台">
+    <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="../plugins/elementui/index.css">
+    <link rel="stylesheet" href="../plugins/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+
+    <!-- Theme included stylesheets -->
+    <link href="../plugins/quill/quill.snow.css" rel="stylesheet">
+    <link href="../plugins/quill/quill.bubble.css" rel="stylesheet">
+
+    <!-- Core build with no theme, formatting, non-essential modules -->
+    <link href="../plugins/quill/quill.core.css" rel="stylesheet">
+    <!-- Main Quill library -->
+    <script src="../plugins/quill/quill.js"></script>
+    <!--        <script src="../plugins/quill/quill.core.js"></script>-->
+</head>
+<body style="width: 100%;">
+    <div id="app">
+        <div id="main" style="height:700px;"></div>
+    </div>
+</body>
+<script src="../js/vue.js"></script>
+<script src="../plugins/elementui/index.js"></script>
+<script type="text/javascript" src="../js/jquery.min.js"></script>
+<script src="../js/axios-0.18.0.js"></script>
+<script src="../plugins/quill/vue-quill-editor.js"></script>
+<script src="../js/echarts.js"></script>
+<script src="../js/vintage.js"></script>
+<script type="text/javascript">
+
+    var vue = new Vue({
+        el: '#app',
+        data: {
+            activeName:'first',
+            dataList: []
+        }
+    });
+
+    Vue.use(window.VueQuillEditor);
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('main'),'vintage');
+
+    var data = [];
+    for (let i = 0; i < 5; ++i) {
+        data.push(Math.round(Math.random() * 200));
+    }
+    // 指定图表的配置项和数据
+    var option = {
+        title: {
+            text: '单博客数据动态图',
+            left:'center',
+            textStyle:{
+                //文字颜色
+                color:'#d90429',
+                //字体风格,'normal','italic','oblique'
+                fontStyle:'normal',
+                //字体粗细 'normal','bold','bolder','lighter',100 | 200 | 300 | 400...
+                fontWeight:'bold',
+                //字体系列
+                fontFamily:'sans-serif',
+                //字体大小
+                fontSize:25
+            }
+        },
+        xAxis: {
+            max: 'dataMax'
+        },
+        yAxis: {
+            type: 'category',
+            data: ['A', 'B', 'C', 'D', 'E'],
+            inverse: true,
+            animationDuration: 300,
+            animationDurationUpdate: 300,
+            max: 2 // only the largest 3 bars will be displayed
+        },
+        series: [
+            {
+                realtimeSort: true,
+                name: 'X',
+                type: 'bar',
+                data: data,
+                label: {
+                    show: true,
+                    position: 'right',
+                    valueAnimation: true
+                }
+            }
+        ],
+        legend: {
+            show: true,
+            x:'center',
+            y:'bottom',
+        },
+        animationDuration: 3000,
+        animationDurationUpdate: 3000,
+        animationEasing: 'linear',
+        animationEasingUpdate: 'linear'
+    };
+    // 使用刚指定的配置项和数据显示图表。
+    function update() {
+        var data = option.series[0].data;
+        for (var i = 0; i < data.length; ++i) {
+            if (Math.random() > 0.9) {
+                data[i] += Math.round(Math.random() * 2000);
+            } else {
+                data[i] += Math.round(Math.random() * 200);
+            }
+        }
+        myChart.setOption(option);
+    }
+
+    setInterval(function() {
+        update();
+    }, 3000);
+
+</script>
+</html>
