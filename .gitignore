@@ -1,3 +1,4 @@
 # Project exclude paths
 /blog_api/target/
+/blog-admin/target/
 /blog-app-new/static/
