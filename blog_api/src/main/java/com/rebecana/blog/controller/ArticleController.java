@@ -5,13 +5,10 @@ import com.rebecana.blog.common.aop.LogAnnotation;
 import com.rebecana.blog.common.cache.Cache;
 import com.rebecana.blog.service.ArticleService;
 import com.rebecana.blog.vo.Result;
-import com.rebecana.blog.vo.params.ArticleBodyParam;
 import com.rebecana.blog.vo.params.ArticleParam;
 import com.rebecana.blog.vo.params.PageParams;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import org.springframework.stereotype.Controller;
 
 /**
  * <p>
@@ -35,6 +32,8 @@ public class ArticleController {
      * @return
      */
     @PostMapping
+    @LogAnnotation(module = "文章",operator = "获取文章列表")
+    @Cache(expire = 5 * 60 * 1000,name = "list_article")
     public Result listArticle(@RequestBody PageParams pageParams){
         return articleService.listArticle(pageParams);
     }
@@ -67,7 +66,6 @@ public class ArticleController {
      */
     @PostMapping("listArchives")
     //加上此注解代表要对此接口记录日志
-    @LogAnnotation(module = "文章",operator = "获取文章列表")
     public Result listArchives(){
         return articleService.listArchives();
     }

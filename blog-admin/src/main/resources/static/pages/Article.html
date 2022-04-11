@@ -121,15 +121,15 @@
                     <el-form ref="dataAddForm" :model="formData" :rules="rules" label-position="right" label-width="100px">
                         <el-row>
                             <el-col>
-                                <el-form-item label="图片" prop="avatar">
-                                    <el-input  v-model="formData.avatar"/>
+                                <el-form-item label="是否置顶" prop="title">
+                                    <el-input  v-model="formData.title"/>
                                 </el-form-item>
                             </el-col>
                         </el-row>
                         <el-row>
                             <el-col >
-                                <el-form-item label="标签名字" prop="tagName">
-                                    <el-input  v-model="formData.tagName"/>
+                                <el-form-item label="是否置顶" prop="weight">
+                                    <el-input  v-model="formData.weight"/>
                                 </el-form-item>
                             </el-col>
                         </el-row>

@@ -10,12 +10,10 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
-import java.util.Date;
 
 /**
  * 日志切面
@@ -56,10 +54,10 @@ public class LogAspect {
         String methodName = signature.getName();
         log.info("request method:{}",className + "." + methodName + "()");
 
-//        //请求的参数
-//        Object[] args = joinPoint.getArgs();
-//        String params = JSON.toJSONString(args[0]);
-//        log.info("params:{}",params);
+        //请求的参数
+        Object[] args = joinPoint.getArgs();
+        String params = JSON.toJSONString(args[0]);
+        log.info("params:{}",params);
 
         //获取request 设置IP地址
         HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
