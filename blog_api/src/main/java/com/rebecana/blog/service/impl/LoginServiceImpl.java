@@ -1,6 +1,7 @@
 package com.rebecana.blog.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.rebecana.blog.dao.mapper.SysUserMapper;
 import com.rebecana.blog.dao.pojo.SysUser;
 import com.rebecana.blog.service.LoginService;
 import com.rebecana.blog.service.SysUserService;
@@ -8,12 +9,12 @@ import com.rebecana.blog.utils.JWTUtils;
 import com.rebecana.blog.vo.ErrorCode;
 import com.rebecana.blog.vo.Result;
 import com.rebecana.blog.vo.params.LoginParam;
+import com.rebecana.blog.vo.params.UpdateParam;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -26,7 +27,11 @@ public class LoginServiceImpl implements LoginService {
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
 
+    @Autowired
+    private SysUserMapper sysUserMapper;
+
     private static final String salt = "rebecana!@#";
+
 
     @Override
     public Result login(LoginParam loginParam){
@@ -56,6 +61,36 @@ public class LoginServiceImpl implements LoginService {
     public Result logout(String token) {
         redisTemplate.delete("TOKEN_"+token); //redis直接删除
         return Result.success(null);
+    }
+
+    @Override
+    public Result update(UpdateParam updateParam) {
+        String account =updateParam.getAccount();
+        String password = updateParam.getPassword();
+        SysUser sysUser;
+        if(password!=null && password.length()>0){
+            password= DigestUtils.md5Hex(password + salt);
+            sysUser=sysUserService.findUser(account, password);
+            if(sysUser==null){
+                return Result.fail(ErrorCode.ACCOUNT_PWD_NOT_EXIST.getCode(),ErrorCode.ACCOUNT_PWD_NOT_EXIST.getMsg());
+            }
+        }else{
+            sysUser=sysUserService.findUserByAccount(account);
+        }
+        if(updateParam.getPasswordnew() != null && updateParam.getPasswordnew().length()>0){
+            String passwordnew= DigestUtils.md5Hex(updateParam.getPasswordnew() + salt);
+            sysUser.setPassword(passwordnew);
+        }
+        if(updateParam.getAvatar() != null && updateParam.getAvatar().length()>0){
+            sysUser.setAvatar(updateParam.getAvatar());
+        }
+        if(updateParam.getNickname() != null && updateParam.getNickname().length()>0){
+            sysUser.setNickname(updateParam.getNickname());
+        }
+        sysUserMapper.updateById(sysUser);
+        String token = JWTUtils.createToken(sysUser.getId());
+        redisTemplate.opsForValue().set("TOKEN_"+token, JSON.toJSONString(sysUser),1, TimeUnit.DAYS);
+        return Result.success(token);
     }
 
     @Override

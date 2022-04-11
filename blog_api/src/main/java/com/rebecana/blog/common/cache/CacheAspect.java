@@ -11,9 +11,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.annotation.AliasFor;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
@@ -27,16 +25,18 @@ public class CacheAspect {
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
 
+    //方法注在哪，哪就是切点
     @Pointcut("@annotation(com.rebecana.blog.common.cache.Cache)")
     public void pt(){}
 
+    //通知，环绕通知，在方法前后增强，关联切点
     @Around("pt()")
     public Object around(ProceedingJoinPoint pjp){
         try {
             Signature signature = pjp.getSignature();
-            //类名
+            //拿到类名
             String className = pjp.getTarget().getClass().getSimpleName();
-            //调用的方法名
+            //拿到调用的方法名
             String methodName = signature.getName();
 
 
@@ -63,12 +63,12 @@ public class CacheAspect {
             long expire = annotation.expire();
             //缓存名称
             String name = annotation.name();
-            //先从redis获取
+            //先从redis获取 注解名称+类名称+方法名+MD5参数
             String redisKey = name + "::" + className+"::"+methodName+"::"+params;
             String redisValue = redisTemplate.opsForValue().get(redisKey);
             if (StringUtils.isNotEmpty(redisValue)){
                 log.info("走了缓存~~~,{},{}",className,methodName);
-                return JSON.parseObject(redisValue, Result.class);
+                return  JSON.parseObject(redisValue, Result.class);
             }
             Object proceed = pjp.proceed();
             redisTemplate.opsForValue().set(redisKey,JSON.toJSONString(proceed), Duration.ofMillis(expire));

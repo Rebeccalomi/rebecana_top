@@ -3,16 +3,16 @@ package com.rebecana.blog.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.rebecana.blog.dao.dos.Archives;
 import com.rebecana.blog.dao.mapper.ArticleBodyMapper;
+import com.rebecana.blog.dao.mapper.ArticleMapper;
 import com.rebecana.blog.dao.mapper.ArticleTagMapper;
 import com.rebecana.blog.dao.pojo.Article;
-import com.rebecana.blog.dao.mapper.ArticleMapper;
 import com.rebecana.blog.dao.pojo.ArticleBody;
 import com.rebecana.blog.dao.pojo.ArticleTag;
 import com.rebecana.blog.dao.pojo.SysUser;
 import com.rebecana.blog.service.*;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.rebecana.blog.utils.UserThreadLocal;
 import com.rebecana.blog.vo.*;
 import com.rebecana.blog.vo.params.ArticleParam;
@@ -21,7 +21,7 @@ import org.joda.time.DateTime;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.data.redis.core.StringRedisTemplate;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -178,8 +178,12 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         article.setSummary(articleParam.getSummary());
         article.setTitle(articleParam.getTitle());
         article.setViewCounts(0);
-        article.setWeight(articleParam.getWeight());
-        article.setTitleImg(articleParam.getTitleimg());
+        if(articleParam.getWeight()!=null){
+            article.setWeight(articleParam.getWeight());
+        }
+        if(articleParam.getTitleimg()!=null && articleParam.getTitleimg().length()>0){
+            article.setTitleImg(articleParam.getTitleimg());
+        }
         article.setBodyId(-1L);
         this.articleMapper.insert(article);
 
@@ -222,8 +226,12 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         article.setCategoryId(Long.parseLong(articleParam.getCategory().getId()));
         article.setSummary(articleParam.getSummary());
         article.setTitle(articleParam.getTitle());
-        article.setWeight(articleParam.getWeight());
-        article.setTitleImg(articleParam.getTitleimg());
+        if(articleParam.getWeight()!=null){
+            article.setWeight(articleParam.getWeight());
+        }
+        if(articleParam.getTitleimg()!=null && articleParam.getTitleimg().length()>0){
+            article.setTitleImg(articleParam.getTitleimg());
+        }
         this.articleMapper.updateById(article);
 
         //tags

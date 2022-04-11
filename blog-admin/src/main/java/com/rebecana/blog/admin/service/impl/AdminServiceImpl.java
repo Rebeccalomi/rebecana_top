@@ -3,15 +3,9 @@ package com.rebecana.blog.admin.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.rebecana.blog.admin.mapper.AdminMapper;
-import com.rebecana.blog.admin.mapper.AdminPermissionMapper;
-import com.rebecana.blog.admin.mapper.RoleMapper;
-import com.rebecana.blog.admin.mapper.RolePermissionMapper;
+import com.rebecana.blog.admin.mapper.*;
 import com.rebecana.blog.admin.model.params.PageParam;
-import com.rebecana.blog.admin.pojo.Admin;
-import com.rebecana.blog.admin.pojo.AdminPermission;
-import com.rebecana.blog.admin.pojo.Permission;
-import com.rebecana.blog.admin.pojo.Role;
+import com.rebecana.blog.admin.pojo.*;
 import com.rebecana.blog.admin.service.AdminService;
 import com.rebecana.blog.admin.vo.AdminVo;
 import com.rebecana.blog.admin.vo.PageResult;
@@ -35,6 +29,9 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
 
     @Autowired
     private RoleMapper roleMapper;
+
+    @Autowired
+    private CommentMapper commentMapper;
 
     @Autowired
     private AdminPermissionMapper adminPermissionMapper;
@@ -117,6 +114,9 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     @Override
     public Result delete(Long id) {
         this.adminMapper.deleteById(id);
+        LambdaQueryWrapper<Comment> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Comment::getAuthorId,id);
+        commentMapper.delete(queryWrapper);
         return Result.success(null);
     }
 

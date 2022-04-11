@@ -20,6 +20,5 @@ public class RegisterController {
     public Result register(@RequestBody LoginParam loginParam) {
         //sso 单点登录，后期如果把登陆注册功能提出去（单独的服务，可以独立提供借口）
         return loginService.register(loginParam);
-
     }
 }

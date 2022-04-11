@@ -5,18 +5,12 @@ import com.rebecana.blog.dao.mapper.SysUserMapper;
 import com.rebecana.blog.dao.pojo.SysUser;
 import com.rebecana.blog.service.LoginService;
 import com.rebecana.blog.service.SysUserService;
-import com.rebecana.blog.utils.JWTUtils;
 import com.rebecana.blog.vo.ErrorCode;
 import com.rebecana.blog.vo.LoginUserVo;
 import com.rebecana.blog.vo.Result;
 import com.rebecana.blog.vo.UserVo;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
-
-import java.util.Map;
 
 @Service
 public class SysUserServiceImpl implements SysUserService {
@@ -99,5 +93,7 @@ public class SysUserServiceImpl implements SysUserService {
         userVo.setId(sysUser.getId().toString());
         return userVo;
     }
+
+
 
 }

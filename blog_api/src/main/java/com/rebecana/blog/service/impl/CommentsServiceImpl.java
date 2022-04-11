@@ -10,6 +10,7 @@ import com.rebecana.blog.dao.pojo.Comment;
 import com.rebecana.blog.dao.pojo.SysUser;
 import com.rebecana.blog.service.CommentsService;
 import com.rebecana.blog.service.SysUserService;
+import com.rebecana.blog.utils.RedisKeyUtils;
 import com.rebecana.blog.utils.UserThreadLocal;
 import com.rebecana.blog.vo.CommentVo;
 import com.rebecana.blog.vo.Result;
@@ -18,13 +19,18 @@ import com.rebecana.blog.vo.params.CommentParam;
 import org.joda.time.DateTime;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-
 @Service
 public class CommentsServiceImpl implements CommentsService {
+
+    @Autowired
+    private RedisTemplate<String, String> redisTemplate;
 
     @Autowired
     private CommentMapper commentMapper;
@@ -115,7 +121,14 @@ public class CommentsServiceImpl implements CommentsService {
         updateWrapper.eq("id",comment.getArticleId());
         updateWrapper.setSql(true,"comment_counts=comment_counts+1");
         this.articleMapper.update(null,updateWrapper);
-
+        Date date=new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String str=sdf.format(date);
+        if (redisTemplate.opsForHash().hasKey(RedisKeyUtils.MAP_KEY_USER_COMMENT_COUNTS,str)) {
+            redisTemplate.opsForHash().increment(RedisKeyUtils.MAP_KEY_USER_COMMENT_COUNTS, str, 1);
+        }else{
+            redisTemplate.opsForHash().put(RedisKeyUtils.MAP_KEY_USER_COMMENT_COUNTS,str,"1");
+        }
         return Result.success(null);
     }
 }
