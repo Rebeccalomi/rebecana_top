@@ -16,7 +16,7 @@ public class WebMVCConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
 //        //跨域配置
-        registry.addMapping("/**").allowedOrigins("http://www.rebecana.top/","http://localhost/","http://101.33.229.252/")
+        registry.addMapping("/**").allowedOrigins("http://www.rebecana.top/","http://localhost/","http://101.33.229.252/","http://175.178.1.135/")
                 .allowedMethods("POST","GET","PUT","OPTIONS","DELETE")
                 .maxAge(3600)
                 .allowCredentials(true);

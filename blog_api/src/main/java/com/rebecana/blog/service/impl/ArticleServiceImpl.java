@@ -17,6 +17,7 @@ import com.rebecana.blog.utils.UserThreadLocal;
 import com.rebecana.blog.vo.*;
 import com.rebecana.blog.vo.params.ArticleParam;
 import com.rebecana.blog.vo.params.PageParams;
+import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.joda.time.DateTime;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +45,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     private SysUserService sysUserService;
     @Autowired
     private ArticleTagMapper articleTagMapper;
+
+    @Autowired
+    private RocketMQTemplate rocketMqTemplate;
 
     @Override
     public Result listArticle(PageParams pageParams) {
@@ -207,6 +211,12 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         articleMapper.updateById(article);
         ArticleVo articleVo = new ArticleVo();
         articleVo.setId(article.getId().toString());
+
+        //发送一条消息给rocketmq 当前文章更新了，更新一下缓存吧
+        ArticleMessage articleMessage = new ArticleMessage();
+        articleMessage.setArticleId(article.getId());
+        //blog-update-article为消息的名字
+        rocketMqTemplate.convertAndSend("blog-publish-article",articleMessage);
         return Result.success(articleVo);
     }
 
@@ -256,6 +266,12 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         articleBodyMapper.updateById(articleBody);
         ArticleVo articleVo = new ArticleVo();
         articleVo.setId(article.getId().toString());
+
+        //发送一条消息给rocketmq 当前文章更新了，更新一下缓存吧
+        ArticleMessage articleMessage = new ArticleMessage();
+        articleMessage.setArticleId(article.getId());
+        //blog-update-article为消息的名字
+        rocketMqTemplate.convertAndSend("blog-update-article",articleMessage);
         return Result.success(articleVo);
     }
 

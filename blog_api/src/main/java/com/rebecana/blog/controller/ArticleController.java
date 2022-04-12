@@ -72,9 +72,11 @@ public class ArticleController {
 
 
     @PostMapping("view/{id}")
+    @Cache(expire = 5 * 60 * 1000,name = "view_article")
     public Result findArticleById(@PathVariable("id") Long articleId){
         return articleService.findArticleById(articleId);
     }
+
 
 
     @PostMapping("publish")
@@ -83,6 +85,11 @@ public class ArticleController {
             return articleService.updateArticle(articleParam);
         return articleService.publish(articleParam);
     }
+
+//    @PostMapping("{id}")
+//    public Result ArticleById(@PathVariable("id") Long articleId){
+//        return articleService.findArticleById(articleId);
+//    }
 
 }
 
