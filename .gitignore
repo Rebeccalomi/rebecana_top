@@ -2,3 +2,5 @@
 /blog_api/target/
 /blog-admin/target/
 /blog-app-new/static/
+/blog_api/src/main/resources/application.properties
+/blog_admin/src/main/resources/application.properties

@@ -5,6 +5,7 @@ import com.rebecana.blog.common.aop.LogAnnotation;
 import com.rebecana.blog.common.cache.Cache;
 import com.rebecana.blog.service.ArticleService;
 import com.rebecana.blog.vo.Result;
+import com.rebecana.blog.vo.Search;
 import com.rebecana.blog.vo.params.ArticleParam;
 import com.rebecana.blog.vo.params.PageParams;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,6 +85,11 @@ public class ArticleController {
         if(articleParam.getId()!=null)
             return articleService.updateArticle(articleParam);
         return articleService.publish(articleParam);
+    }
+
+    @PostMapping("search")
+    public Result search(@RequestBody Search search){
+        return articleService.search(search);
     }
 
 //    @PostMapping("{id}")

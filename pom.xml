@@ -41,6 +41,12 @@
                 </exclusions>
             </dependency>
 
+            <!--ElasticSearch整合-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
+            </dependency>
+
             <!-- log4j2 -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>

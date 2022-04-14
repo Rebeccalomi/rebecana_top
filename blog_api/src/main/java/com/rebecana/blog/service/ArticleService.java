@@ -1,8 +1,9 @@
 package com.rebecana.blog.service;
 
-import com.rebecana.blog.dao.pojo.Article;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.rebecana.blog.dao.pojo.Article;
 import com.rebecana.blog.vo.Result;
+import com.rebecana.blog.vo.Search;
 import com.rebecana.blog.vo.params.ArticleParam;
 import com.rebecana.blog.vo.params.PageParams;
 
@@ -59,4 +60,6 @@ public interface ArticleService extends IService<Article> {
     Result publish(ArticleParam articleParam);
 
     Result updateArticle(ArticleParam articleParam);
+
+    Result search(Search search);
 }

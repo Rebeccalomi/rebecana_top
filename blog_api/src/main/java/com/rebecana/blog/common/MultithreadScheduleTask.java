@@ -38,8 +38,18 @@ public class MultithreadScheduleTask {
         String commentCounts= (String) redisTemplate.opsForHash().get(RedisKeyUtils.MAP_KEY_USER_COMMENT_COUNTS,str);
         DateStatic dateStatic=new DateStatic();
         dateStatic.setDate(date);
-        dateStatic.setCommentCounts(commentCounts);
-        dateStatic.setViewCounts(viewCounts);
+        if(commentCounts != null ){
+            dateStatic.setCommentCounts(commentCounts);
+        }
+        else{
+            dateStatic.setCommentCounts("0");
+        }
+        if(viewCounts != null){
+            dateStatic.setViewCounts(viewCounts);
+        }
+        else {
+            dateStatic.setViewCounts("0");
+        }
         dateStaticMapper.insert(dateStatic);
         redisTemplate.opsForHash().delete(RedisKeyUtils.MAP_KEY_USER_COMMENT_COUNTS,str);
         redisTemplate.opsForHash().delete(RedisKeyUtils.MAP_KEY_VIEW_COUNTS,str);

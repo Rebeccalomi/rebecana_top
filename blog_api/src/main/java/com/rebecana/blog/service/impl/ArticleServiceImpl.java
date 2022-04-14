@@ -47,6 +47,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     private ArticleTagMapper articleTagMapper;
 
     @Autowired
+    private ESArticleRepository esArticleRepository;
+
+    @Autowired
     private RocketMQTemplate rocketMqTemplate;
 
     @Override
@@ -211,7 +214,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         articleMapper.updateById(article);
         ArticleVo articleVo = new ArticleVo();
         articleVo.setId(article.getId().toString());
-
+        //Elasticsearch集成save
+        EsArticle esArticle=new EsArticle(article.getId().toString(),article.getTitle(),articleParam.getBody().getContent());
+        esArticleRepository.save(esArticle);
         //发送一条消息给rocketmq 当前文章更新了，更新一下缓存吧
         ArticleMessage articleMessage = new ArticleMessage();
         articleMessage.setArticleId(article.getId());
@@ -243,7 +248,6 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
             article.setTitleImg(articleParam.getTitleimg());
         }
         this.articleMapper.updateById(article);
-
         //tags
         List<TagVo> tags = articleParam.getTags();
         LambdaQueryWrapper<ArticleTag> queryWrapper = new LambdaQueryWrapper<>();
@@ -257,6 +261,10 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
                 this.articleTagMapper.insert(articleTag);
             }
         }
+        //Elasticsearch集成save
+        EsArticle esArticle=new EsArticle(article.getId().toString(),article.getTitle(),articleParam.getBody().getContent());
+        esArticleRepository.save(esArticle);
+        System.out.println(esArticle.getTitle());
         //body
         ArticleBody articleBody = new ArticleBody();
         articleBody.setId(articleMapper.selectById(articleParam.getId()).getBodyId());
@@ -274,6 +282,13 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         rocketMqTemplate.convertAndSend("blog-update-article",articleMessage);
         return Result.success(articleVo);
     }
+
+    @Override
+    public Result search(Search search) {
+        List<EsArticle> searchResult=esArticleRepository.findByTitleOrContent(search.getSearch(),search.getSearch());
+        return Result.success(searchResult);
+    }
+
 
     @Autowired
     private CategoryService categoryService;
