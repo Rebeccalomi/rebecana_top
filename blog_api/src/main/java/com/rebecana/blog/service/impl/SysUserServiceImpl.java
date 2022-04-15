@@ -1,22 +1,27 @@
 package com.rebecana.blog.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.rebecana.blog.dao.mapper.SysUserMapper;
+import com.rebecana.blog.dao.pojo.Article;
 import com.rebecana.blog.dao.pojo.SysUser;
+import com.rebecana.blog.service.ArticleService;
 import com.rebecana.blog.service.LoginService;
 import com.rebecana.blog.service.SysUserService;
-import com.rebecana.blog.vo.ErrorCode;
-import com.rebecana.blog.vo.LoginUserVo;
-import com.rebecana.blog.vo.Result;
-import com.rebecana.blog.vo.UserVo;
+import com.rebecana.blog.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Map;
 
 @Service
 public class SysUserServiceImpl implements SysUserService {
 
     @Autowired
     private SysUserMapper sysUserMapper;
+
+    @Autowired
+    private ArticleService articleService;
 
     @Autowired
     private LoginService loginService;
@@ -94,6 +99,20 @@ public class SysUserServiceImpl implements SysUserService {
         return userVo;
     }
 
+    @Override
+    public Result findMe() {
+        MyVo me=new MyVo();
+        SysUser sysUser = sysUserMapper.selectById(1);
+        me.setAvatar(sysUser.getAvatar());
+        QueryWrapper<Article> queryWrapper = new QueryWrapper<>();
+        queryWrapper.select("SUM(ms_article.comment_counts) as commentcounts");
+        Map<String, Object> map=articleService.getMap(queryWrapper);
+        me.setCommentCounts(Integer.valueOf(String.valueOf(map.get("commentcounts"))));
+        queryWrapper.select("SUM(ms_article.view_counts) as viewcounts");
+        map=articleService.getMap(queryWrapper);
+        me.setViewCounts(Integer.valueOf(String.valueOf(map.get("viewcounts"))));
+        return Result.success(me);
+    }
 
 
 }

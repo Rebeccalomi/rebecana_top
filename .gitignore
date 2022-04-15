@@ -4,3 +4,5 @@
 /blog-app-new/static/
 /blog_api/src/main/resources/application.properties
 /blog_admin/src/main/resources/application.properties
+/blog_api/src/main/resources/application-prod.properties
+/blog_admin/src/main/resources/application-prod.properties
