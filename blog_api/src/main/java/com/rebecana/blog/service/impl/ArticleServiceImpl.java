@@ -23,8 +23,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * <p>
@@ -264,7 +263,6 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         //Elasticsearch集成save
         EsArticle esArticle=new EsArticle(article.getId().toString(),article.getTitle(),articleParam.getBody().getContent());
         esArticleRepository.save(esArticle);
-        System.out.println(esArticle.getTitle());
         //body
         ArticleBody articleBody = new ArticleBody();
         articleBody.setId(articleMapper.selectById(articleParam.getId()).getBodyId());
@@ -331,8 +329,17 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     @Override
     public Result listArchives() {
-        List<Archives> archiveslist=articleMapper.listArchives();
-        return Result.success(archiveslist);
+        Map<String, Object> map = new HashMap<>(16);
+        List<String> groupYearMonth = articleMapper.getGroupYearMonthByIsPublished();
+        Map<String, List<Archives>> archiveBlogMap = new LinkedHashMap<>();
+        for (String s : groupYearMonth) {
+            List<Archives> archiveslist=articleMapper.listArchives(s);
+            archiveBlogMap.put(s, archiveslist);
+        }
+        Integer count = articleMapper.countBlogByIsPublished();
+        map.put("blogMap", archiveBlogMap);
+        map.put("count", count);
+        return Result.success(map);
     }
 
 

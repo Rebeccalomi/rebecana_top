@@ -17,10 +17,13 @@
         <result column="category_id" property="categoryId"/>
     </resultMap>
 
-    <select id="listArchives" resultType="com.rebecana.blog.dao.dos.Archives">
-        select FROM_UNIXTIME(create_date/1000,'%Y') as year,FROM_UNIXTIME(create_date/1000,'%m') as month,count(*) as count from ms_article group by year,month
-        order by year desc,month desc
+    <select id="listArchives" resultType="com.rebecana.blog.dao.dos.Archives" parameterType="String">
+        select ms_article.id as id , ms_article.title as title,FROM_UNIXTIME(create_date/1000,'%d') as day from ms_article
+        where FROM_UNIXTIME(create_date/1000,'%Y年%m月') = #{s}
+        order by day desc
     </select>
+
+    <select id="countBlogByIsPublished" resultType="java.lang.Integer">select count(*) from ms_article</select>
     <!--            Long categoryId,
                                Long tagId,
                                String year,
@@ -40,6 +43,10 @@
             </if>
         </where>
         order by weight desc,create_date desc
+    </select>
+
+    <select id="getGroupYearMonthByIsPublished" resultType="java.lang.String">
+        select DISTINCT FROM_UNIXTIME(create_date/1000,'%Y年%m月') as groupYearMonth from ms_article order by groupYearMonth desc
     </select>
 
 </mapper>

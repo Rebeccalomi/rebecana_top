@@ -4,10 +4,9 @@ import lombok.Data;
 
 @Data
 public class Archives {
+    private Long id;
 
-    private Integer year;
+    private Integer day;
 
-    private Integer month;
-
-    private Long count;
+    private String title;
 }

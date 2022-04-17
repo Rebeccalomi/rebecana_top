@@ -3,18 +3,14 @@ package com.rebecana.blog.admin;
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.core.exceptions.MybatisPlusException;
-import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
 import com.baomidou.mybatisplus.generator.InjectionConfig;
 import com.baomidou.mybatisplus.generator.config.*;
 import com.baomidou.mybatisplus.generator.config.po.TableFill;
-import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
-import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +25,7 @@ public class MybatisPlusAutomatic {
     //91
     private static String projectPath = System.getProperty("user.dir");
     private static String DriverName ="com.mysql.cj.jdbc.Driver";
-    private static String Url = "jdbc:mysql://101.33.229.252:3306/blog?useUnicode=true&useSSL=false&characterEncoding=utf8";
+    private static String Url = "jdbc:mysql://175.178.1.135:3307/blog?useUnicode=true&useSSL=false&characterEncoding=utf8";
     private static String username = "root";
     private static String password = "1193479622";
     /**

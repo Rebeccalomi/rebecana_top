@@ -34,7 +34,7 @@ public class MybatisPlusAutomatic {
         //2、数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
         // 这里切换成自己连接的数据库地址信息
-        dsc.setUrl("jdbc:mysql://101.33.229.252:3306/blog?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC");
+        dsc.setUrl("jdbc:mysql://175.178.1.135:3307/blog?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC");
         dsc.setDriverName("com.mysql.cj.jdbc.Driver");
         dsc.setUsername("root");
         dsc.setPassword("1193479622");

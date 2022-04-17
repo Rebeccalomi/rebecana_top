@@ -19,9 +19,16 @@ import java.util.List;
  */
 @Component
 public interface ArticleMapper extends BaseMapper<Article> {
-    List<Archives> listArchives();
+    List<Archives> listArchives(String s);
 
     IPage<Article> listArticle(Page<Article> page, Long categoryId, Long tagId, String year, String month);
 
+    /**
+     * 按年月分组归档公开博客 统计公开博客总数
+     * @return List<Archive>
+     */
+    List<String> getGroupYearMonthByIsPublished();
 
+
+    Integer countBlogByIsPublished();
 }
