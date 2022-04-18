@@ -309,7 +309,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     public Result hotArticle(int limit){
         LambdaQueryWrapper<Article> queryWrapper=new LambdaQueryWrapper<>();
         queryWrapper.orderByDesc(Article::getViewCounts);
-        queryWrapper.select(Article::getId,Article::getTitle);
+        queryWrapper.select(Article::getId,Article::getTitle,Article::getCreateDate,Article::getTitleImg);
         queryWrapper.last("limit "+limit);
         //select id,title from article order by view_counts desc limit 5
         List<Article> articles=articleMapper.selectList(queryWrapper);
@@ -320,7 +320,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     public Result newArticles(int limit) {
         LambdaQueryWrapper<Article> queryWrapper=new LambdaQueryWrapper<>();
         queryWrapper.orderByDesc(Article::getCreateDate);
-        queryWrapper.select(Article::getId,Article::getTitle);
+        queryWrapper.select(Article::getId,Article::getTitle,Article::getCreateDate,Article::getTitleImg);
         queryWrapper.last("limit "+limit);
         //select id,title from article order by view_counts desc limit 5
         List<Article> articles=articleMapper.selectList(queryWrapper);

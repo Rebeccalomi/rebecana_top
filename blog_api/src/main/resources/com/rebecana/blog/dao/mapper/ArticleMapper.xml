@@ -49,4 +49,8 @@
         select DISTINCT FROM_UNIXTIME(create_date/1000,'%Y年%m月') as groupYearMonth from ms_article order by groupYearMonth desc
     </select>
 
+    <select id="countBlogByCategory" resultType="Long" parameterType="Long">
+        SELECT count(*) from ms_article WHERE ms_article.category_id=#{id}
+    </select>
+
 </mapper>

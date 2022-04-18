@@ -1,6 +1,7 @@
 package com.rebecana.blog.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.rebecana.blog.dao.mapper.ArticleMapper;
 import com.rebecana.blog.dao.mapper.CategoryMapper;
 import com.rebecana.blog.dao.pojo.Category;
 import com.rebecana.blog.service.CategoryService;
@@ -18,6 +19,9 @@ public class CategoryServiceImpl implements CategoryService {
     @Autowired
     private CategoryMapper categoryMapper;
 
+    @Autowired
+    private ArticleMapper articleMapper;
+
     @Override
     public CategoryVo findCategoryById(Long id) {
         Category category = categoryMapper.selectById(id);
@@ -31,6 +35,7 @@ public class CategoryServiceImpl implements CategoryService {
         CategoryVo categoryVo = new CategoryVo();
         categoryVo.setId(String.valueOf(category.getId()));
         BeanUtils.copyProperties(category,categoryVo);
+        categoryVo.setCount(articleMapper.countBlogByCategory(category.getId()));
         return categoryVo;
     }
     public List<CategoryVo> copyList(List<Category> categoryList){

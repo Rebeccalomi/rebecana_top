@@ -31,4 +31,6 @@ public interface ArticleMapper extends BaseMapper<Article> {
 
 
     Integer countBlogByIsPublished();
+
+    Long countBlogByCategory(Long id);
 }
