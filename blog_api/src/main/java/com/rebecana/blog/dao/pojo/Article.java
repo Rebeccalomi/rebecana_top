@@ -42,5 +42,11 @@ public class Article {
      */
     private Long createDate;
 
+    /**
+     * 更新时间
+     */
+    private Long updateDate;
+
+
     private String titleImg;
 }

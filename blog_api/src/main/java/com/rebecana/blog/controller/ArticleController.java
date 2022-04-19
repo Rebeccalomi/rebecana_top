@@ -46,7 +46,7 @@ public class ArticleController {
     @PostMapping("hot")
     @Cache(expire = 5 * 60 * 1000,name = "hot_article")
     public Result hotArticle(){
-        int limit=2;
+        int limit=5;
         return articleService.hotArticle(limit);
     }
 
@@ -73,7 +73,6 @@ public class ArticleController {
 
 
     @PostMapping("view/{id}")
-    @Cache(expire = 5 * 60 * 1000,name = "view_article")
     public Result findArticleById(@PathVariable("id") Long articleId){
         return articleService.findArticleById(articleId);
     }

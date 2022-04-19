@@ -26,6 +26,8 @@ public class ArticleVo {
      */
     private String createDate;
 
+    private String updateDate;
+
     private UserVo author;
 
     private ArticleBodyVo body;

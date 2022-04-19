@@ -119,6 +119,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         articleVo.setTitleImg(article.getTitleImg());
         BeanUtils.copyProperties(article,articleVo);
         articleVo.setCreateDate(new DateTime(article.getCreateDate()).toString("yyyy-MM-dd HH:mm"));
+        if(article.getUpdateDate() != null){
+            articleVo.setUpdateDate(new DateTime(article.getUpdateDate()).toString("yyyy-MM-dd HH:mm"));
+        }
         //并不是所有的接口,都需要标签和作者信息
         if(isTag){
             Long articleId=article.getId();
@@ -240,6 +243,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         article.setCategoryId(Long.parseLong(articleParam.getCategory().getId()));
         article.setSummary(articleParam.getSummary());
         article.setTitle(articleParam.getTitle());
+        article.setUpdateDate(System.currentTimeMillis());
         if(articleParam.getWeight()!=null){
             article.setWeight(articleParam.getWeight());
         }
@@ -309,7 +313,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     public Result hotArticle(int limit){
         LambdaQueryWrapper<Article> queryWrapper=new LambdaQueryWrapper<>();
         queryWrapper.orderByDesc(Article::getViewCounts);
-        queryWrapper.select(Article::getId,Article::getTitle,Article::getCreateDate,Article::getTitleImg);
+        queryWrapper.select(Article::getId,Article::getTitle,Article::getCreateDate,Article::getTitleImg,Article::getSummary);
         queryWrapper.last("limit "+limit);
         //select id,title from article order by view_counts desc limit 5
         List<Article> articles=articleMapper.selectList(queryWrapper);
