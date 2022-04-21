@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class Archives {
-    private Long id;
+    private String id;
 
     private Integer day;
 

@@ -17,7 +17,7 @@ public class RestClientConfig extends AbstractElasticsearchConfiguration {
     @Bean
     public RestHighLevelClient elasticsearchClient() {
         final ClientConfiguration clientConfiguration = ClientConfiguration.builder()
-                .connectedTo("101.33.229.252:9200")
+                .connectedTo("56656565:9200")
                 .build();
         return RestClients.create(clientConfiguration).rest();
     }

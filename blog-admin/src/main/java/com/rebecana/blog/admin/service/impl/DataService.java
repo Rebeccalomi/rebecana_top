@@ -27,6 +27,7 @@ public class DataService {
 
     public Result echart2() {
         LambdaQueryWrapper<DateStatic> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.orderByDesc(DateStatic::getDate);
         List<DateStatic> echart2=dateStaticMapper.selectList(queryWrapper);
         return Result.success(echart2);
     }

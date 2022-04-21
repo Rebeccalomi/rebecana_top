@@ -18,7 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Component
 public class QiniuUtils {
-    public static  final String url = "http://img.rebecana.top/";
+    public static  final String url = "https://img.rebecana.top/";
 
     @Value("${qiniu.accessKey}")
     private  String accessKey;

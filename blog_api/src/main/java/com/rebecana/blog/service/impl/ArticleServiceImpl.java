@@ -62,7 +62,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
                 pageParams.getYear(),
                 pageParams.getMonth());
         List<Article> records = articleIPage.getRecords();
-        return Result.success(copyList(records,true,true));
+        return Result.success(copyList(records,true,true,false,true));
     }
 
 //    @Override
