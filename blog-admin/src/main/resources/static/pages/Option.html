@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- 页面meta -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>rebecana_world后台</title>
+  <meta name="description" content="rebecana_world后台">
+  <meta name="keywords" content="rebecana_world后台">
+  <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+  <!-- 引入样式 -->
+  <link rel="stylesheet" href="../plugins/elementui/index.css">
+  <link rel="stylesheet" href="../plugins/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="../css/style.css">
+
+
+  <!-- Theme included stylesheets -->
+  <link href="../plugins/quill/quill.snow.css" rel="stylesheet">
+  <link href="../plugins/quill/quill.bubble.css" rel="stylesheet">
+
+  <!-- Core build with no theme, formatting, non-essential modules -->
+  <link href="../plugins/quill/quill.core.css" rel="stylesheet">
+  <!-- Main Quill library -->
+  <script src="../plugins/quill/quill.js"></script>
+  <style>
+    .el-textarea__inner{
+      height:600px !important;
+    }
+
+  </style>
+  <!--        <script src="../plugins/quill/quill.core.js"></script>-->
+</head>
+<body class="hold-transition">
+<div id="app">
+
+  <div class="content-header">
+    <h1>网站管理<small>博客设置</small></h1>
+    <el-breadcrumb separator-class="el-icon-arrow-right" class="breadcrumb">
+      <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item>网站管理</el-breadcrumb-item>
+      <el-breadcrumb-item>博客设置</el-breadcrumb-item>
+    </el-breadcrumb>
+  </div>
+
+  <div class="app-container">
+    <div class="box">
+
+      <!-- 编辑标签弹层 -->
+      <div class="add-form">
+          <el-form ref="dataAddForm" :model="formData" :rules="rules" label-position="right" label-width="100px">
+            <el-row>
+              <el-col >
+                <el-form-item label="关于我" prop="aboutMe"/>
+                <el-input type="textarea" v-model="formData.aboutMe"/>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col>
+                <el-form-item label="收款码" prop="prize">
+                  <el-input  v-model="formData.prize"/>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
+          <div slot="footer" class="dialog-footer">
+            <el-button @click="dialogFormVisibleEdit = false">取消</el-button>
+            <el-button type="primary" @click="handleEdit()">确定</el-button>
+          </div>
+        </el-dialog>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+<!-- 引入组件库 -->
+<script src="../js/vue.js"></script>
+<script src="../plugins/elementui/index.js"></script>
+<script type="text/javascript" src="../js/jquery.min.js"></script>
+<script src="../js/axios-0.18.0.js"></script>
+<script src="../plugins/quill/vue-quill-editor.js"></script>
+<script>
+
+  var vue = new Vue({
+    el: '#app',
+    data:{
+      activeName:'first',
+      editorOption:{
+        theme: 'snow',
+        boundary: document.body,
+        modules: {
+          toolbar: [
+            ['bold', 'italic', 'underline', 'strike'],
+            ['blockquote', 'code-block'],
+            [{ 'header': 1 }, { 'header': 2 }],
+            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+            [{ 'script': 'sub' }, { 'script': 'super' }],
+            [{ 'indent': '-1' }, { 'indent': '+1' }],
+            [{ 'direction': 'rtl' }],
+            [{ 'size': ['small', false, 'large', 'huge'] }],
+            [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+            [{ 'color': [] }, { 'background': [] }],
+            [{ 'font': [] }],
+            [{ 'align': [] }],
+            ['clean'],
+            ['link', 'image', 'video']
+          ]
+        },
+        placeholder: 'Insert text here ...',
+        readOnly: false
+      },
+      dataList: {},//当前页要展示的分页列表数据
+      subjectList: [],
+      tableData: {},
+      fbChoiceList: [{
+        content: "",
+      }],
+      formData: {
+      },//表单数据
+      rules: {//校验规则
+        name: [{ required: true, message: '必填项', trigger: 'blur' }],
+      }
+
+    },
+    //钩子函数，VUE对象初始化完成后自动执行
+    created() {
+      this.find();
+    },
+    methods: {
+      //编辑
+      handleEdit() {
+        axios.post("/admin/option/update",this.formData).then((res)=>{
+          if (res.data.success){
+            this.$message({
+              message: '恭喜你，编辑成功',
+              type: 'success'
+            });
+            this.findPage();
+          }
+        }).catch((error)=>{
+          if (error == "Error: Request failed with status code 403"){
+            this.$message.error("无操作权限");
+          }
+        });
+      },
+      find() {
+        axios.post("/admin/option/get").then((res)=>{
+          if (res.data.success){
+            console.log(res.data.data)
+            this.formData = res.data.data;
+          }
+        }).catch((error)=>{
+          if (error == "Error: Request failed with status code 403"){
+            this.$message.error("无操作权限");
+          }
+        });
+      },
+      // 重置表单
+      resetForm() {
+        this.formData = {};
+        this.subjects = [];
+        this.tableData = {};
+      }
+    }
+  });
+  Vue.use(window.VueQuillEditor);
+</script>
+</html>
